@@ -11,7 +11,8 @@ import com.nicha.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,10 @@ public class UserService {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userMapper.toUser(request);
+
         return userRepository.save(user);
     }
 
