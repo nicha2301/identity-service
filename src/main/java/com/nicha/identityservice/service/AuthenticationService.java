@@ -74,7 +74,7 @@ public class AuthenticationService {
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(request.getUsername())
                 .issuer("nicha.com")
-                .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.MONTHS).toEpochMilli()))
+                .expirationTime(new Date(Instant.now().plus(30, ChronoUnit.DAYS).toEpochMilli()))
                 .build();
 
         JWSObject jwsObject = new JWSObject(header, new Payload(jwtClaimsSet.toJSONObject()));
