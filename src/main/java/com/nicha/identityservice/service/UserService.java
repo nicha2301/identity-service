@@ -4,6 +4,7 @@ import com.nicha.identityservice.dto.request.UserCreationRequest;
 import com.nicha.identityservice.dto.request.UserUpdateRequest;
 import com.nicha.identityservice.dto.respone.UserResponse;
 import com.nicha.identityservice.entity.User;
+import com.nicha.identityservice.enums.Role;
 import com.nicha.identityservice.exception.AppException;
 import com.nicha.identityservice.exception.ErrorCode;
 import com.nicha.identityservice.mapper.UserMapper;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,9 +31,12 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userMapper.toUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+        HashSet<String> roles = new HashSet<String>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 
@@ -45,8 +50,8 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getUsers() {
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
     public UserResponse getUser(String id) {
