@@ -2,7 +2,7 @@ package com.nicha.identityservice.service;
 
 import com.nicha.identityservice.dto.request.UserCreationRequest;
 import com.nicha.identityservice.dto.request.UserUpdateRequest;
-import com.nicha.identityservice.dto.respone.UserResponse;
+import com.nicha.identityservice.dto.response.UserResponse;
 import com.nicha.identityservice.entity.User;
 import com.nicha.identityservice.enums.Role;
 import com.nicha.identityservice.exception.AppException;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<String>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+//        user.setRoles(roles);
         return userRepository.save(user);
     }
 

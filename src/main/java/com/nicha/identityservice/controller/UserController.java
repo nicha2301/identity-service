@@ -3,7 +3,7 @@ package com.nicha.identityservice.controller;
 import com.nicha.identityservice.dto.request.ApiResponse;
 import com.nicha.identityservice.dto.request.UserCreationRequest;
 import com.nicha.identityservice.dto.request.UserUpdateRequest;
-import com.nicha.identityservice.dto.respone.UserResponse;
+import com.nicha.identityservice.dto.response.UserResponse;
 import com.nicha.identityservice.entity.User;
 import com.nicha.identityservice.service.UserService;
 import jakarta.validation.Valid;
@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

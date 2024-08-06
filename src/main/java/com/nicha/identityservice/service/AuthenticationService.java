@@ -1,9 +1,9 @@
 package com.nicha.identityservice.service;
 
 import com.nicha.identityservice.dto.request.AuthenticationRequest;
-import com.nicha.identityservice.dto.respone.AuthenticationResponse;
+import com.nicha.identityservice.dto.response.AuthenticationResponse;
 import com.nicha.identityservice.dto.request.IntrospectRequest;
-import com.nicha.identityservice.dto.respone.IntrospectResponse;
+import com.nicha.identityservice.dto.response.IntrospectResponse;
 import com.nicha.identityservice.entity.User;
 import com.nicha.identityservice.exception.AppException;
 import com.nicha.identityservice.exception.ErrorCode;
@@ -19,7 +19,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,7 +27,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Set;
 import java.util.StringJoiner;
 
 
@@ -93,7 +91,7 @@ public class AuthenticationService {
     private String buildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-            user.getRoles().forEach(stringJoiner::add);
+//            user.getRoles().forEach(stringJoiner::add);
         }
         return stringJoiner.toString();
     }

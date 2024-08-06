@@ -3,7 +3,7 @@ package com.nicha.identityservice.mapper;
 
 import com.nicha.identityservice.dto.request.UserCreationRequest;
 import com.nicha.identityservice.dto.request.UserUpdateRequest;
-import com.nicha.identityservice.dto.respone.UserResponse;
+import com.nicha.identityservice.dto.response.UserResponse;
 import com.nicha.identityservice.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

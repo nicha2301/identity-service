@@ -1,4 +1,4 @@
-package com.nicha.identityservice.dto.respone;
+package com.nicha.identityservice.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
-    String accessToken;
-    boolean authenticated;
+public class PermissionRequest {
+    String name;
+    String description;
 }
