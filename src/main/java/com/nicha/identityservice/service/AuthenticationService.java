@@ -48,14 +48,11 @@ public class AuthenticationService {
         var verified = signedJWT.verify(verifier);
 
         Date expDate = signedJWT.getJWTClaimsSet().getExpirationTime();
-        return IntrospectResponse.builder()
-                .valid(verified && expDate.after(new Date()))
-                .build();
+        return IntrospectResponse.builder().valid(verified && expDate.after(new Date())).build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws JOSEException {
-        var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
@@ -65,21 +62,13 @@ public class AuthenticationService {
 
         var token = generateToken(user);
 
-        return AuthenticationResponse.builder()
-                .accessToken(token)
-                .authenticated(true)
-                .build();
+        return AuthenticationResponse.builder().accessToken(token).authenticated(true).build();
     }
 
     private String generateToken(User user) throws JOSEException {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
 
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
-                .issuer("nicha.com")
-                .expirationTime(new Date(Instant.now().plus(30, ChronoUnit.DAYS).toEpochMilli()))
-                .claim("scope", buildScope(user))
-                .build();
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder().subject(user.getUsername()).issuer("nicha.com").expirationTime(new Date(Instant.now().plus(30, ChronoUnit.DAYS).toEpochMilli())).claim("scope", buildScope(user)).build();
 
         JWSObject jwsObject = new JWSObject(header, new Payload(jwtClaimsSet.toJSONObject()));
 
@@ -91,7 +80,12 @@ public class AuthenticationService {
     private String buildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles())) {
-//            user.getRoles().forEach(stringJoiner::add);
+            user.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_" + role.getName());
+                if (!CollectionUtils.isEmpty(role.getPermissions())) {
+                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
+                }
+            });
         }
         return stringJoiner.toString();
     }
