@@ -1,6 +1,8 @@
 package com.nicha.identityservice.entity;
 
+import com.nicha.identityservice.validator.DobConstraint;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,5 +1,7 @@
 package com.nicha.identityservice.dto.request;
 
+import com.nicha.identityservice.entity.Role;
+import com.nicha.identityservice.validator.DobConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +21,7 @@ public class UserCreationRequest {
     String password;
     String firstName;
     String lastName;
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
-    Set<String> roles;
+    Set<Role> roles;
 }
