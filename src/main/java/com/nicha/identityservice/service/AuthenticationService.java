@@ -1,6 +1,7 @@
 package com.nicha.identityservice.service;
 
 import com.nicha.identityservice.dto.request.AuthenticationRequest;
+import com.nicha.identityservice.dto.request.RefreshTokenRequest;
 import com.nicha.identityservice.dto.response.AuthenticationResponse;
 import com.nicha.identityservice.dto.response.IntrospectResponse;
 import com.nicha.identityservice.exception.AppException;
@@ -54,7 +55,7 @@ public class AuthenticationService {
         try {
             verifyToken(token);
         } catch (AppException e) {
-           isValid = false;
+            isValid = false;
         }
 
         return IntrospectResponse.builder()
@@ -62,7 +63,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -74,6 +75,23 @@ public class AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         var token = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
+    }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest request) throws ParseException, JOSEException {
+        var signToken = verifyToken(request.getToken());
+        var username = signToken.getJWTClaimsSet().getSubject();
+
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        var token = generateToken(user);
+
+        logout(LogoutRequest.builder().token(request.getToken()).build());
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -141,10 +159,10 @@ public class AuthenticationService {
         return signedJWT;
     }
 
-    private String buildScope(User user){
+    private String buildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
 
-         if (!CollectionUtils.isEmpty(user.getRoles()))
+        if (!CollectionUtils.isEmpty(user.getRoles()))
             user.getRoles().forEach(role -> {
                 stringJoiner.add("ROLE_" + role.getName());
                 if (!CollectionUtils.isEmpty(role.getPermissions()))
@@ -154,5 +172,4 @@ public class AuthenticationService {
 
         return stringJoiner.toString();
     }
-
 }

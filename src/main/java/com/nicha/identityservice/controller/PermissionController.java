@@ -1,6 +1,6 @@
 package com.nicha.identityservice.controller;
 
-import com.nicha.identityservice.dto.request.ApiResponse;
+import com.nicha.identityservice.dto.response.ApiResponse;
 import com.nicha.identityservice.dto.request.PermissionRequest;
 import com.nicha.identityservice.dto.response.PermissionResponse;
 import com.nicha.identityservice.service.PermissionService;

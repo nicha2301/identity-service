@@ -1,4 +1,4 @@
-package com.nicha.identityservice.dto.request;
+package com.nicha.identityservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

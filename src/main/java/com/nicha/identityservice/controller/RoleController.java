@@ -2,7 +2,7 @@ package com.nicha.identityservice.controller;
 
 import com.nicha.identityservice.dto.response.RoleResponse;
 import com.nicha.identityservice.service.RoleService;
-import com.nicha.identityservice.dto.request.ApiResponse;
+import com.nicha.identityservice.dto.response.ApiResponse;
 import com.nicha.identityservice.dto.request.RoleRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

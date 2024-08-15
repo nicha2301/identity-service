@@ -1,6 +1,6 @@
 package com.nicha.identityservice.exception;
 
-import com.nicha.identityservice.dto.request.ApiResponse;
+import com.nicha.identityservice.dto.response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,7 @@
 package com.nicha.identityservice.controller;
 
-import com.nicha.identityservice.dto.request.ApiResponse;
+import com.nicha.identityservice.dto.request.RefreshTokenRequest;
+import com.nicha.identityservice.dto.response.ApiResponse;
 import com.nicha.identityservice.dto.request.AuthenticationRequest;
 import com.nicha.identityservice.dto.response.AuthenticationResponse;
 import com.nicha.identityservice.dto.response.IntrospectResponse;
@@ -38,6 +39,15 @@ public class AuthenticationController {
             throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/refresh-token")
+    ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
     }

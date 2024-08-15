@@ -1,6 +1,6 @@
 package com.nicha.identityservice.configuration;
 
-import com.nicha.identityservice.dto.request.ApiResponse;
+import com.nicha.identityservice.dto.response.ApiResponse;
 import com.nicha.identityservice.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
