@@ -1,20 +1,19 @@
 package com.nicha.identityservice.entity;
 
-import com.nicha.identityservice.validator.DobConstraint;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,9 +21,9 @@ public class User {
     String username;
     String password;
     String firstName;
-    String lastName;
     LocalDate dob;
+    String lastName;
+
     @ManyToMany
     Set<Role> roles;
 }
-

@@ -1,6 +1,5 @@
 package com.nicha.identityservice.mapper;
 
-
 import com.nicha.identityservice.dto.request.UserCreationRequest;
 import com.nicha.identityservice.dto.request.UserUpdateRequest;
 import com.nicha.identityservice.dto.response.UserResponse;
@@ -11,10 +10,10 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    User toUser(UserCreationRequest request);
+
+    UserResponse toUserResponse(User user);
+
     @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
-    @Mapping(target = "roles", ignore = true)
-
-    User toUser(UserCreationRequest request);
-    UserResponse toUserResponse(User user);
 }

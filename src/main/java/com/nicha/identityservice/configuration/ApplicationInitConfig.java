@@ -1,6 +1,5 @@
 package com.nicha.identityservice.configuration;
 
-
 import com.nicha.identityservice.entity.User;
 import com.nicha.identityservice.enums.Role;
 import com.nicha.identityservice.repository.UserRepository;
@@ -17,26 +16,28 @@ import java.util.HashSet;
 
 @Configuration
 @RequiredArgsConstructor
-@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class ApplicationInitConfig {
+
     PasswordEncoder passwordEncoder;
 
     @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository){
         return args -> {
-            HashSet<String> roles = new HashSet<String>();
-            roles.add(Role.ADMIN.name());
+            if (userRepository.findByUsername("admin").isEmpty()){
+                var roles = new HashSet<String>();
+                roles.add(Role.ADMIN.name());
 
-            if (userRepository.findByUsername("admin").isEmpty()) {
-                userRepository.save(User.builder()
+                User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
-//                        .roles(roles)
-                        .build()
-                );
+                        // .roles(roles)
+                        .build();
+
+                userRepository.save(user);
+                log.warn("admin user has been created with default password: admin, please change it");
             }
-            log.warn("admin has been created with defaut password: admin. Pls change it");
         };
     }
 }
